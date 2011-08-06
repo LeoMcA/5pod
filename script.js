@@ -11,8 +11,10 @@ window.onload = function() {
 	var button = document.getElementsByTagName("button")[0];
 	var audio = document.getElementsByTagName("audio")[0];
 	var dropbox = document.getElementsByTagName("p")[0];
+	var input = document.getElementsByTagName("input")[0]
 	var playing = false;
-	var popEnabled = true;
+	var popEnabled = false;
+	var files = [];
 
 	button.onclick = function() {
 		if(play == true) {
@@ -41,7 +43,7 @@ window.onload = function() {
 	}, false);
 	
 	function playSong(song) {
-		audio.src = window.URL.createObjectURL(files[song - 1]);
+		audio.src = files[song - 1];
 		audio.play();
 		playing = true;
 	}
@@ -93,6 +95,16 @@ window.onload = function() {
 	function drop(e) {
 		e.stopPropagation();
 		e.preventDefault();
-		files = e.dataTransfer.files;
+		fileList(e.dataTransfer.files);
 	}
+	
+	function fileList(selectedFiles) {
+		var x = 0;
+		while(x < selectedFiles.length) {
+			files.push(window.URL.createObjectURL(selectedFiles[x]));
+			x++;
+		}
+	}
+	
+	input.addEventListener("change", fileList(input.files), false);
 }
