@@ -10,8 +10,9 @@ window.onload = function() {
 	var play = true;
 	var button = document.getElementsByTagName("button")[0];
 	var audio = document.getElementsByTagName("audio")[0];
-	var dropbox = document.getElementsByTagName("p")[0];
-	var input = document.getElementsByTagName("input")[0]
+	var dropbox = document.getElementsByTagName("datagrid")[0];
+	var input = document.getElementsByTagName("input")[0];
+	var ol = document.getElementsByTagName("ol")[0];
 	var playing = false;
 	var popEnabled = false;
 	var files = [];
@@ -34,7 +35,7 @@ window.onload = function() {
 		if(popEnabled == true) {
 			if(playing == true) playSong(songFromUrl());
 			if(playing == false) pauseSong();
-			loadRandomSong(location.hash.split("#!/")[1]);
+			loadRandomSong(songFromUrl());
 		}
 	}
 	
@@ -53,9 +54,19 @@ window.onload = function() {
 		playing = false;
 	}
 	
-	function randomSong() {
+	function randomSong(song) {
 		var numberSongs = files.length;
-		return Math.floor(Math.random()*numberSongs) + 1;
+		var randomSong =  Math.floor(Math.random()*numberSongs) + 1;
+		if(randomSong != song) {
+			return randomSong;
+		}
+		else if(numberSongs == 1) {
+			return randomSong;
+		}
+		else if(randomSong == 1) {
+			return randomSong + 1;
+		}
+		else return randomSong - 1;
 	}
 	
 	function toggleButton() {
@@ -65,9 +76,9 @@ window.onload = function() {
 	
 	function loadRandomSong(song) {
 		popEnabled = false;
-		if(song == null) song = randomSong();
+		if(song == null) song = randomSong(song);
 		history.replaceState(null, null, baseUrl + "#!/" + song);
-		history.pushState(null, null, baseUrl + "#!/" + randomSong());
+		history.pushState(null, null, baseUrl + "#!/" + randomSong(song));
 		window.history.back();
 		popEnabled = true;
 	}
@@ -99,12 +110,21 @@ window.onload = function() {
 	}
 	
 	function fileList(selectedFiles) {
+		document.getElementsByTagName("p")[0].style.display = "none";
 		var x = 0;
 		while(x < selectedFiles.length) {
+			var li = document.createElement("li");
+			var a = document.createElement("a");
+			a.innerHTML = selectedFiles[x].name;
+			a.href = "#!/" + (files.length + 1);
+			li.appendChild(a);
+			ol.appendChild(li);
 			files.push(window.URL.createObjectURL(selectedFiles[x]));
 			x++;
 		}
 	}
 	
-	input.addEventListener("change", fileList(input.files), false);
+	input.onchange = function() {
+		fileList(input.files);
+	}
 }
