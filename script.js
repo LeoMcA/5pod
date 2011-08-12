@@ -16,6 +16,7 @@ window.onload = function() {
 	var playing = false;
 	var popEnabled = false;
 	var files = [];
+	var createObjectURL = window.URL.createObjectURL || window.webkitURL.createObjectURL
 
 	button.onclick = function() {
 		if(play == true) {
@@ -112,14 +113,16 @@ window.onload = function() {
 	function fileList(selectedFiles) {
 		document.getElementsByTagName("p")[0].style.display = "none";
 		var x = 0;
+		console.log(selectedFiles.length);
 		while(x < selectedFiles.length) {
 			var li = document.createElement("li");
 			var a = document.createElement("a");
 			a.innerHTML = selectedFiles[x].name;
+			console.log(selectedFiles[x].name);
 			a.href = "#!/" + (files.length + 1);
 			li.appendChild(a);
 			ol.appendChild(li);
-			files.push(window.URL.createObjectURL(selectedFiles[x]));
+			files.push(createObjectURL(selectedFiles[x]));
 			x++;
 		}
 	}
