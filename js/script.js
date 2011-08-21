@@ -16,6 +16,7 @@ window.onload = function() {
 	var playing = false;
 	var popEnabled = false;
 	var files = [];
+	var windowURL = window.URL || window.webkitURL
 
 	button.onclick = function() {
 		if(play === true) {
@@ -30,7 +31,7 @@ window.onload = function() {
 		}
 		toggleButton();	
 	};
-	
+
 	window.onpopstate = function() {
 		if(popEnabled === true) {
 			if(playing === true) playSong(songFromUrl());
@@ -112,6 +113,7 @@ window.onload = function() {
 	function fileList(selectedFiles) {
 		document.getElementsByTagName("p")[0].style.display = "none";
 		var x = 0;
+		console.log(selectedFiles.length);
 		while(x < selectedFiles.length) {
 			var li = document.createElement("li");
 			var a = document.createElement("a");
@@ -119,7 +121,8 @@ window.onload = function() {
 			a.href = "#!/" + (files.length + 1);
 			li.appendChild(a);
 			ol.appendChild(li);
-			files.push(window.URL.createObjectURL(selectedFiles[x]));
+			files.push(windowURL.createObjectURL(selectedFiles[x]));
+			console.log(windowURL.createObjectURL(selectedFiles[x]));
 			x++;
 		}
 	}
