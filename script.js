@@ -16,7 +16,7 @@ window.onload = function() {
 	var playing = false;
 	var popEnabled = false;
 	var files = [];
-	var createObjectURL = window.URL.createObjectURL || window.webkitURL.createObjectURL
+	var windowURL = window.URL || window.webkitURL
 
 	button.onclick = function() {
 		if(play == true) {
@@ -32,13 +32,13 @@ window.onload = function() {
 		toggleButton();	
 	};
 	
-	window.onpopstate = function() {
+	/*window.onpopstate = function() {
 		if(popEnabled == true) {
 			if(playing == true) playSong(songFromUrl());
 			if(playing == false) pauseSong();
 			loadRandomSong(songFromUrl());
 		}
-	}
+	}*/
 	
 	audio.addEventListener("ended", function() {
 		window.history.forward();
@@ -118,11 +118,11 @@ window.onload = function() {
 			var li = document.createElement("li");
 			var a = document.createElement("a");
 			a.innerHTML = selectedFiles[x].name;
-			console.log(selectedFiles[x].name);
 			a.href = "#!/" + (files.length + 1);
 			li.appendChild(a);
 			ol.appendChild(li);
-			files.push(createObjectURL(selectedFiles[x]));
+			files.push(windowURL.createObjectURL(selectedFiles[x]));
+			console.log(windowURL.createObjectURL(selectedFiles[x]));
 			x++;
 		}
 	}
