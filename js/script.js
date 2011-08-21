@@ -18,12 +18,12 @@ window.onload = function() {
 	var files = [];
 
 	button.onclick = function() {
-		if(play == true) {
+		if(play === true) {
 			button.innerHTML = "Pause";
 			loadRandomSong(songFromUrl());
 			playSong(songFromUrl());
 		}
-		if(play == false) {
+		if(play === false) {
 			button.innerHTML = "Play";
 			pauseSong();
 			currentTime = audio.currentTime;
@@ -32,12 +32,12 @@ window.onload = function() {
 	};
 	
 	window.onpopstate = function() {
-		if(popEnabled == true) {
-			if(playing == true) playSong(songFromUrl());
-			if(playing == false) pauseSong();
+		if(popEnabled === true) {
+			if(playing === true) playSong(songFromUrl());
+			if(playing === false) pauseSong();
 			loadRandomSong(songFromUrl());
 		}
-	}
+	};
 	
 	audio.addEventListener("ended", function() {
 		window.history.forward();
@@ -54,9 +54,9 @@ window.onload = function() {
 		playing = false;
 	}
 	
-	function randomSong(song) {
+	function getRandomSong(song) {
 		var numberSongs = files.length;
-		var randomSong =  Math.floor(Math.random()*numberSongs) + 1;
+		var randomSong = Math.floor(Math.random()*numberSongs) + 1;
 		if(randomSong != song) {
 			return randomSong;
 		}
@@ -76,9 +76,9 @@ window.onload = function() {
 	
 	function loadRandomSong(song) {
 		popEnabled = false;
-		if(song == null) song = randomSong(song);
+		if(song === null) song = getRandomSong(song);
 		history.replaceState(null, null, baseUrl + "#!/" + song);
-		history.pushState(null, null, baseUrl + "#!/" + randomSong(song));
+		history.pushState(null, null, baseUrl + "#!/" + getRandomSong(song));
 		window.history.back();
 		popEnabled = true;
 	}
@@ -126,5 +126,5 @@ window.onload = function() {
 	
 	input.onchange = function() {
 		fileList(input.files);
-	}
-}
+	};
+};
