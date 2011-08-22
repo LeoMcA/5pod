@@ -11,10 +11,21 @@ window.onload = function() {
         dropbox = document.getElementsByTagName("section")[0],
 	    input = document.getElementsByTagName("input")[0],
 	    ol = document.getElementsByTagName("ol")[0],
+        button = document.getElementsByTagName("button")[0],
 	    popEnabled = false,
 	    files = [],
 	    windowURL = window.URL || window.webkitURL,
         playing = false;
+        
+    function togglePlaying() {
+        playing = !playing;
+    }
+
+    button.onclick = function() {
+        togglePlaying();
+        if(playing) audio.play();
+        else audio.pause();
+    };
 
 	window.onpopstate = function(event) {
 		if(popEnabled === true) {
@@ -85,6 +96,7 @@ window.onload = function() {
 			var a = document.createElement("a");
 			a.innerHTML = selectedFiles[x].name;
 			a.href = "#" + (files.length + 1);
+            li.id = (files.length + 1);
 			li.appendChild(a);
 			ol.appendChild(li);
 			files.push(windowURL.createObjectURL(selectedFiles[x]));
