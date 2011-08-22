@@ -6,86 +6,53 @@
 
 window.onload = function() {
 
-	var baseUrl = location.href.split("#")[0];
-	var play = true;
-	var button = document.getElementsByTagName("button")[0];
-	var audio = document.getElementsByTagName("audio")[0];
-	var dropbox = document.getElementsByTagName("datagrid")[0];
-	var input = document.getElementsByTagName("input")[0];
-	var ol = document.getElementsByTagName("ol")[0];
-	var playing = false;
-	var popEnabled = false;
-	var files = [];
-	var windowURL = window.URL || window.webkitURL
+	var baseUrl = location.href.split("#")[0],
+	    audio = document.getElementsByTagName("audio")[0],
+        dropbox = document.getElementsByTagName("section")[0],
+	    input = document.getElementsByTagName("input")[0],
+	    ol = document.getElementsByTagName("ol")[0],
+	    popEnabled = false,
+	    files = [],
+	    windowURL = window.URL || window.webkitURL,
+        playing = false;
 
-	button.onclick = function() {
-		if(play === true) {
-			button.innerHTML = "Pause";
-			loadRandomSong(songFromUrl());
-			playSong(songFromUrl());
-		}
-		if(play === false) {
-			button.innerHTML = "Play";
-			pauseSong();
-			currentTime = audio.currentTime;
-		}
-		toggleButton();	
-	};
-
-	window.onpopstate = function() {
+	window.onpopstate = function(event) {
 		if(popEnabled === true) {
-			if(playing === true) playSong(songFromUrl());
-			if(playing === false) pauseSong();
-			loadRandomSong(songFromUrl());
+            loadSongs();
+            if(playing === true) audio.play();
 		}
 	};
 	
+    audio.addEventListener("playing", function() {
+        playing = true;
+	}, false);
+    
+    audio.addEventListener("pause", function() {
+        playing = false;
+	}, false);
+    
 	audio.addEventListener("ended", function() {
 		window.history.forward();
 	}, false);
 	
-	function playSong(song) {
-		audio.src = files[song - 1];
-		audio.play();
-		playing = true;
-	}
-	
-	function pauseSong() {
-		audio.pause();
-		playing = false;
+	function loadSongs() {
+        var song = location.hash.split("#")[1];
+        popEnabled = false;
+        if(song === undefined) song = getRandomSong();
+		history.replaceState("test", null, baseUrl + "#" + song);
+		history.pushState("test", null, baseUrl + "#" + getRandomSong(song));
+		window.history.back();
+		popEnabled = true;
+        audio.src = files[song - 1];
 	}
 	
 	function getRandomSong(song) {
 		var numberSongs = files.length;
 		var randomSong = Math.floor(Math.random()*numberSongs) + 1;
-		if(randomSong != song) {
-			return randomSong;
-		}
-		else if(numberSongs == 1) {
-			return randomSong;
-		}
-		else if(randomSong == 1) {
-			return randomSong + 1;
-		}
+		if(randomSong != song) return randomSong;
+		else if(numberSongs == 1) return randomSong;
+		else if(randomSong == 1) return randomSong + 1;
 		else return randomSong - 1;
-	}
-	
-	function toggleButton() {
-		play = !play;
-		return play;
-	}
-	
-	function loadRandomSong(song) {
-		popEnabled = false;
-		if(song === null) song = getRandomSong(song);
-		history.replaceState(null, null, baseUrl + "#!/" + song);
-		history.pushState(null, null, baseUrl + "#!/" + getRandomSong(song));
-		window.history.back();
-		popEnabled = true;
-	}
-	
-	function songFromUrl() {
-		return location.hash.split("/")[1];
 	}
 
 	dropbox.addEventListener("dragenter", dragenter, false);
@@ -113,18 +80,17 @@ window.onload = function() {
 	function fileList(selectedFiles) {
 		document.getElementsByTagName("p")[0].style.display = "none";
 		var x = 0;
-		console.log(selectedFiles.length);
 		while(x < selectedFiles.length) {
 			var li = document.createElement("li");
 			var a = document.createElement("a");
 			a.innerHTML = selectedFiles[x].name;
-			a.href = "#!/" + (files.length + 1);
+			a.href = "#" + (files.length + 1);
 			li.appendChild(a);
 			ol.appendChild(li);
 			files.push(windowURL.createObjectURL(selectedFiles[x]));
-			console.log(windowURL.createObjectURL(selectedFiles[x]));
 			x++;
 		}
+        loadSongs();
 	}
 	
 	input.onchange = function() {
