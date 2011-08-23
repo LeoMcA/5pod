@@ -1,17 +1,21 @@
+audio {
+    display: none;
+}
+
 ol {
 	list-style-position: inside;
 }
 
-li:nth-child(odd) {
+ol a:nth-child(odd) {
     background-color:#eee;
 }
 
-li:nth-child(even) {
+ol a:nth-child(even) {
     background-color:#fff;
 }
 
-li a {
-    width: 100%;
+ol a {
+    display: list-item;
     padding: 5px 10px;
 }
 

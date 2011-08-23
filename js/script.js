@@ -92,13 +92,11 @@ window.onload = function() {
 		document.getElementsByTagName("p")[0].style.display = "none";
 		var x = 0;
 		while(x < selectedFiles.length) {
-			var li = document.createElement("li");
 			var a = document.createElement("a");
 			a.innerHTML = selectedFiles[x].name;
 			a.href = "#" + (files.length + 1);
-            li.id = (files.length + 1);
-			li.appendChild(a);
-			ol.appendChild(li);
+            a.id = (files.length + 1);
+			ol.appendChild(a);
 			files.push(windowURL.createObjectURL(selectedFiles[x]));
 			x++;
 		}
