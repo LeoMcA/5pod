@@ -66,18 +66,12 @@ window.onload = function() {
 		else return randomSong - 1;
 	}
 
-	dropbox.addEventListener("dragenter", dragenter, false);
-	
-	dropbox.addEventListener("dragover", dragover, false);
-	
+	dropbox.addEventListener("dragenter", noOp, false);
+	dropbox.addEventListener("dragexit", noOp, false);
+	dropbox.addEventListener("dragover", noOp, false);
 	dropbox.addEventListener("drop", drop, false);
 		
-	function dragenter(e) {
-		e.stopPropagation();
-		e.preventDefault();
-	}
-
-	function dragover(e) {
+	function noOp(e) {
 		e.stopPropagation();
 		e.preventDefault();
 	}
@@ -85,7 +79,8 @@ window.onload = function() {
 	function drop(e) {
 		e.stopPropagation();
 		e.preventDefault();
-		fileList(e.dataTransfer.files);
+		var files = e.dataTransfer.files;
+		if(files.length > 0) fileList(files);
 	}
 	
 	function fileList(selectedFiles) {
@@ -102,6 +97,6 @@ window.onload = function() {
 	}
 	
 	input.onchange = function() {
-		fileList(input.files);
+		if(input.files.length > 0) fileList(input.files);
 	};
 };
