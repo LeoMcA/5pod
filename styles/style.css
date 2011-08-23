@@ -1,3 +1,15 @@
+body {
+	background: #B8A89C;
+	color: #291202;
+	text-shadow: 0px 1px 1px #fff;
+}
+
+header {
+	background: #291202;
+	color: #FF6A00;
+	text-shadow: 0px -1px 0px #000;
+}
+
 audio {
     display: none;
 }
@@ -7,11 +19,7 @@ ol {
 }
 
 ol a:nth-child(odd) {
-    background-color:#eee;
-}
-
-ol a:nth-child(even) {
-    background-color:#fff;
+    background: #A1948C;
 }
 
 ol a {

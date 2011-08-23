@@ -8,14 +8,14 @@ window.onload = function() {
 
 	var baseUrl = location.href.split("#")[0],
 	    audio = document.getElementsByTagName("audio")[0],
-        dropbox = document.getElementsByTagName("section")[0],
+      dropbox = document.getElementsByTagName("html")[0],
 	    input = document.getElementsByTagName("input")[0],
 	    ol = document.getElementsByTagName("ol")[0],
-        button = document.getElementsByTagName("button")[0],
+      button = document.getElementsByTagName("button")[0],
 	    popEnabled = false,
 	    files = [],
 	    windowURL = window.URL || window.webkitURL,
-        playing = false;
+      playing = false;
         
     function togglePlaying() {
         playing = !playing;
@@ -89,18 +89,16 @@ window.onload = function() {
 	}
 	
 	function fileList(selectedFiles) {
-		document.getElementsByTagName("p")[0].style.display = "none";
 		var x = 0;
 		while(x < selectedFiles.length) {
 			var a = document.createElement("a");
 			a.innerHTML = selectedFiles[x].name;
 			a.href = "#" + (files.length + 1);
-            a.id = (files.length + 1);
 			ol.appendChild(a);
 			files.push(windowURL.createObjectURL(selectedFiles[x]));
 			x++;
 		}
-        loadSongs();
+		if(!playing) loadSongs();
 	}
 	
 	input.onchange = function() {
