@@ -1,13 +1,18 @@
 body {
-	background: #B8A89C;
+	background: #fff;
 	color: #291202;
-	text-shadow: 0px 1px 1px #fff;
+	padding-top: 35px;
 }
 
 header {
-	background: #291202;
-	color: #FF6A00;
-	text-shadow: 0px -1px 0px #000;
+	background: #000;
+	opacity: 0.75;
+	color: #fff;
+	padding: 5px;
+	height: 25px;
+	width: 100%;
+	position: fixed;
+	top: 0px;
 }
 
 audio {
@@ -19,7 +24,7 @@ ol {
 }
 
 ol a:nth-child(odd) {
-    background: #A1948C;
+    background: #eee;
 }
 
 ol a {
