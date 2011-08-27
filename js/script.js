@@ -12,13 +12,14 @@ window.onload = function() {
 	    input = document.getElementsByTagName("input")[0],
 	    ol = document.getElementsByTagName("ol")[0],
       button = document.getElementsByTagName("button")[0],
+      p = document.getElementsByTagName("p")[0],
 	    popEnabled = false,
 	    files = [],
 	    windowURL = window.URL || window.webkitURL,
       playing = false;
         
     function togglePlaying() {
-        playing = !playing;
+        if(files.length > 0) playing = !playing;
     }
 
     button.onclick = function() {
@@ -85,6 +86,7 @@ window.onload = function() {
 	
 	function fileList(selectedFiles) {
 		var x = 0;
+		p.style.display="none";
 		while(x < selectedFiles.length) {
 			var a = document.createElement("a");
 			a.innerHTML = selectedFiles[x].name;
